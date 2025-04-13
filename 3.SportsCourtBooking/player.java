@@ -2,8 +2,12 @@ import java.util.ArrayList;
 
 public class player {
     private String name;
-    static ArrayList<player> players = new ArrayList<>();
+    static public ArrayList<player> players = new ArrayList<>();
     static int maxMember = 20;
+
+    public ArrayList<player> getPlayers(){
+        return players;
+    }
 
     public String getName(){
         return this.name;
