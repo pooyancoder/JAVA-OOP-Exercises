@@ -1,4 +1,5 @@
 import java.awt.dnd.Autoscroll;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -13,10 +14,23 @@ public class main {
     }
     static void deletePlayer(admin admin){
         String playerName = StringScanner.nextLine();
-        for(player player : player.players){
+        for(player p : player.players){
+            if(p.getName().equals(playerName)){
+                p.deletePlayer(p , admin);
+                System.out.println("player"+playerName+" deleted from courts and the player static list ");
+                ArrayList<player> pl = admin.getPlayerlist();
+                for(player p1 : pl){
+                    if(p1.getName().equals(p)){
+                        admin.playerlist.remove(p1);
+                        System.out.println("player"+playerName+"successfully deleted from admin player list");
 
+                    }
+                }
+            }
         }
     }
+
+    static void  bookCourt()
 
 
 
