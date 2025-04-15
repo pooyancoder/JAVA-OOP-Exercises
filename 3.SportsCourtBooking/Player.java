@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
-public class player {
+public class Player {
     private String name;
-    static public ArrayList<player> players = new ArrayList<>();
+    static public ArrayList<Player> players = new ArrayList<>();
     static int maxMember = 20;
 
-    public ArrayList<player> getPlayers(){
+    public ArrayList<Player> getPlayers(){
         return players;
     }
 
@@ -13,7 +13,7 @@ public class player {
         return this.name;
     }
 
-    public player(String name){
+    public Player(String name){
         if(players.size() < 20){
             players.add(this);
             this.name = name;
@@ -22,19 +22,18 @@ public class player {
         }
     }
 
-    public void bookCourt(court court){
+    public void bookCourt(Court court){
         if(court.isiSAvailable()){
             court.setCourt(this);
         }else
             System.out.println("this court has been Previously reserved");
     }
 
-    public void deletePlayer(player p , admin a){
-        for(court court : a.getCourts()){
+    public void deletePlayer(Player p , Admin a){
+        for(Court court : a.getCourts()){
             if(court.getBooker().getName().equals( p.getName())){
                 court.deletePlayer();
             }
         }
     }
-
 }

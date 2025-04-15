@@ -1,17 +1,17 @@
 import java.util.Scanner;
 
-public class court {
+public class Court {
     private String courtNAme;
     private boolean iSAvailable;
-    private player booker;
+    private Player booker;
 
-    Scanner Scanner = new Scanner(System.in);
+    java.util.Scanner Scanner = new Scanner(System.in);
 
-    public player getBooker(){
+    public Player getBooker(){
         return this.booker;
     }
 
-    public court(String name){
+    public Court(String name){
         this.courtNAme = name;
         iSAvailable = true;
     }
@@ -20,13 +20,12 @@ public class court {
         return iSAvailable;
     }
 
-    public void setCourt(player bookMAn){
-            iSAvailable = false;
-            this.booker = bookMAn;
-            System.out.println("the court"+courtNAme+"booked by"+bookMAn);
+    public void setCourt(Player bookMAn){
+        iSAvailable = false;
+        this.booker = bookMAn;
+        System.out.println("the court"+courtNAme+"booked by"+bookMAn);
     }
     public void deletePlayer(){
-        this.courtNAme ="";
         iSAvailable = true;
         this.booker = null;
     }
