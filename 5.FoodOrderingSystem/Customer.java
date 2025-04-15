@@ -1,11 +1,13 @@
+import java.util.ArrayList;
+
 public class Customer {
     private String name;
 
     public Customer(String name) {
         this.name = name;
     }
-
-    public Order placeOrder(MenuItem... items) {
+// MenuItem... items
+    public Order placeOrder(ArrayList<MenuItem> items) {
         Order order = new Order();
         for (MenuItem item : items) {
             order.addItem(item);

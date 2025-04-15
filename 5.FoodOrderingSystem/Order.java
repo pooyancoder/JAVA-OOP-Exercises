@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private List<MenuItem> items;
+    private ArrayList<MenuItem> items;
     private String status;
 
     public Order() {
@@ -22,8 +22,17 @@ public class Order {
         return total;
     }
 
+//    public void finaliize(Restaurant r){
+//        if(this.status.equals("payed")){
+//            for(Order o : r.getOrders()){
+//               if()
+//            }
+//        }
+//    }
+
     public void updateStatus(String status) {
         this.status = status;
+        System.out.println("status changed!");
     }
 
     public String getStatus() {
