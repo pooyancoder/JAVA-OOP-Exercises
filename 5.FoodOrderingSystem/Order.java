@@ -23,6 +23,9 @@ public class Order {
         this.status = s;
     }
 
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
 
     public Order() {
         this.items = new ArrayList<>();

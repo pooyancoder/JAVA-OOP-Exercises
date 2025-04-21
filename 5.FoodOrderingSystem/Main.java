@@ -98,6 +98,22 @@ public class Main {
         }
     }
 
+    static void delivery(Restaurant r){
+        ArrayList<Order> orders = r.getOrders();
+        for (Order o : orders){
+            System.out.println(o.getDeliveryStatus());
+        }
+        System.out.println("Enter the index of order list you will change");
+        int index = Scanner.nextInt();
+        Order o = orders.get(index);
+        if (o.getDeliveryStatus().equals("Prepared")){
+            System.out.println("the order is delivered!");
+        }else {
+            o.setDeliveryStatus("Prepared");
+            System.out.println("Your order is delivering");
+        }
+    }
+
 
     public static void main(String[] args) {
         Restaurant restaurant = new Restaurant();
@@ -131,7 +147,7 @@ public class Main {
                     UpdateOrder(restaurant);
                     break;
                 case 4:
-                    // Reserved for future
+                    delivery(restaurant);
                     break;
                 case 5:
                     System.exit(0); // Exit cleanly
