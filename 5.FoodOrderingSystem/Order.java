@@ -1,56 +1,34 @@
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Order {
-    private ArrayList<MenuItem> items;
+    private final ArrayList<MenuItem> menuItems;
     private String status;
-    private String deliveryStatus = "Preparing";
 
-    public String getDeliveryStatus() {
-        return deliveryStatus;
-    }
-
-    public boolean isPaid(){
-        return (status.equalsIgnoreCase("card") || status.equalsIgnoreCase("cash"));
-    }
-
-    public void updateDeliveryStatus(String status) {
-        this.deliveryStatus = status;
-        System.out.println("Delivery status updated to: " + status);
-    }
-
-    public void pay (String s){
-        this.status = s;
-    }
-
-    public void setDeliveryStatus(String deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
+    public ArrayList<MenuItem> getMenuItems() {
+        return menuItems;
     }
 
     public Order() {
-        this.items = new ArrayList<>();
+        this.menuItems = new ArrayList<>();
         this.status = "Pending";
     }
 
     public void addItem(MenuItem item) {
-        items.add(item);
+        menuItems.add(item);
     }
+
+    public boolean isPaid() {
+        return (status.equalsIgnoreCase("card") || status.equalsIgnoreCase("cash"));
+    }
+
 
     public double calculateTotal() {
         double total = 0;
-        for (MenuItem item : items) {
+        for (MenuItem item : menuItems) {
             total += item.getPrice();
         }
         return total;
-    }
-
-    public void finalizeOrder(Restaurant r) {
-        if (this.status.equalsIgnoreCase("Paid")) {
-            this.status = "Completed";
-            System.out.println("Order finalized and marked as Completed.");
-        } else {
-            System.out.println("Cannot finalize. Payment not received yet.");
-        }
     }
 
 
@@ -65,7 +43,7 @@ public class Order {
 
     public void printSummary() {
         System.out.println("Order Summary:");
-        for (MenuItem item : items) {
+        for (MenuItem item : menuItems) {
             System.out.println("- " + item.getName() + ": $" + item.getPrice());
         }
         System.out.println("Total: $" + calculateTotal());

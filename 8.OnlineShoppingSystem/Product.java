@@ -7,6 +7,11 @@ public class Product {
         this.price = price;
     }
 
+    public void setPrice(double price) {
+        this.price = price;
+        System.out.println("price up to date " + price);
+    }
+
     public String getName() {
         return name;
     }

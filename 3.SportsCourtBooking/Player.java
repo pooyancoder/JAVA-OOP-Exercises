@@ -1,39 +1,25 @@
-import java.util.ArrayList;
-
 public class Player {
-    private String name;
-    static public ArrayList<Player> players = new ArrayList<>();
-    static int maxMember = 20;
+    private final String name;
+    long ID;
+    Court court;
 
-    public ArrayList<Player> getPlayers(){
-        return players;
+
+    public Player(String name, long ID) {
+        this.name = name;
+        this.ID = ID;
     }
 
-    public String getName(){
+    public long getID() {
+        return ID;
+    }
+
+    public String getName() {
         return this.name;
     }
 
-    public Player(String name){
-        if(players.size() < 20){
-            players.add(this);
-            this.name = name;
-        }else{
-            System.out.println("you cant make a new player!");
-        }
+    public void setCourt(Court court){
+        this.court = court;
     }
 
-    public void bookCourt(Court court){
-        if(court.isiSAvailable()){
-            court.setCourt(this);
-        }else
-            System.out.println("this court has been Previously reserved");
-    }
 
-    public void deletePlayer(Player p , Admin a){
-        for(Court court : a.getCourts()){
-            if(court.getBooker().getName().equals( p.getName())){
-                court.deletePlayer();
-            }
-        }
-    }
 }

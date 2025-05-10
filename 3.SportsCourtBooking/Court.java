@@ -1,36 +1,36 @@
-import java.util.Scanner;
 
 public class Court {
-    private String courtNAme;
+    private final String courtNAme;
     private boolean iSAvailable;
-    private Player booker;
-
-    java.util.Scanner Scanner = new Scanner(System.in);
-
-    public Player getBooker(){
-        return this.booker;
-    }
+    private Player player;
 
     public Court(String name){
         this.courtNAme = name;
         iSAvailable = true;
     }
 
-    public boolean isiSAvailable(){
+    public boolean getIsAvailable(){
         return iSAvailable;
     }
 
-    public void setCourt(Player bookMAn){
-        iSAvailable = false;
-        this.booker = bookMAn;
-        System.out.println("the court"+courtNAme+"booked by"+bookMAn);
-    }
-    public void deletePlayer(){
-        iSAvailable = true;
-        this.booker = null;
-    }
 
     public String getCourtNAme(){
         return this.courtNAme;
+    }
+
+    public void setIsAvailable(){
+        this.iSAvailable = true;
+        player = null;
+        System.out.println(courtNAme + " can be reserved!\n");
+    }
+
+    public void bookCourt(Player player){
+        if (iSAvailable) {
+            this.player = player;
+            iSAvailable = false;
+            System.out.println(player.getName() + " reserved the " + courtNAme + "\n");
+        }else{
+            System.out.println("no reservation!\n");
+        }
     }
 }

@@ -1,100 +1,208 @@
 import java.util.Scanner;
-import java.util.List;
 
 public class Main {
     static Scanner StringScanner = new Scanner(System.in);
     static Scanner IntScanner = new Scanner(System.in);
 
-    static void addProduct(Store store){
-        String name;
-        int price;
-        System.out.println("you would add a item");
-        System.out.println("Enter your product's name");
-        name = StringScanner.nextLine();
-        System.out.println("Enter your product's price");
-        price = IntScanner.nextInt();
-        Product p  = new Product(name , price);
-        store.addProduct(p);
-        return;
-    }
+    static void makeAccount(Store store) {
+        System.out.println("\n-------makeAccount-------");
+        System.out.println("enter your account name!\n");
+        String customerName;
 
-    static void showProducts(Store store){
-        List<Product> products = store.getProducts();
-        for(Product p : products){
-            System.out.println(p.getName()+" with price "+p.getPrice()+"$");
-        }
-        return;
-    }
-
-    static void addCustomer(Store store){
-        String name;
-        System.out.println("Enter your customer name");
-        name = StringScanner.nextLine();
-        Customer customer = new Customer(name);
-        int maxChoice = store.getProducts().size();
-        showProducts(store);
-        System.out.println("Enter your choices number! how many do you need?");
-        int choice = 0;
         do {
-            System.out.println("Enter your choice");
-            choice = IntScanner.nextInt();
-        }while (choice>maxChoice || choice<0);
-        if(choice == 0){
-            System.out.println("You wouldn't buy as you choosed so good F..K");
-            return;
-        }
-        for (int i = 1; i <= choice ; i++) {
-            Product p = null;
-            System.out.println("Enter your pro's name");
-            String pNAme = StringScanner.nextLine();
-            for(Product pro : store.getProducts()){
-                if (pNAme.equals(pro.getName())){
-                    customer.addToCart(pro);
-                    System.out.println("the product successfully added to shoppingCart");
-                    p = pro;
-                    break;
+            customerName = StringScanner.nextLine();
+            if (store.semeName(customerName)) {
+                System.out.println("the customer with same name already exist!");
+                System.out.println("1. try another name");
+                System.out.println("2. go to menu");
+                int choice = IntScanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        System.out.println("try another name :");
+                        continue;
+                    case 2:
+                        return;
                 }
             }
-                System.out.println("we don't have something like you need");
+        } while (store.semeName(customerName));
+
+        System.out.println("choose a password for your account\nat least 8 characters :");
+        String password;
+        do {
+            password = StringScanner.nextLine();
+            if (password.length() < 8) {
+                System.out.println("enter a password in 8 characters :");
+            }
+        } while (password.length() < 8);
+        Customer newCustomer = new Customer(customerName, password);
+        store.getCustomers().add(newCustomer);
+        System.out.println(customerName + " successfully added to customer list\n");
+        System.out.println("do you want to check an order out?");
+        System.out.println("1. yes\n2. no");
+        int choice = IntScanner.nextInt();
+        switch (choice) {
+            case 1:
+                store.checkOrder(newCustomer);
+            case 2:
+                break;
         }
-        customer.placeOrder();
     }
 
-
-    public static void main(String[] args){
-        Store Store = new Store();
-        System.out.println("*****Welcome to our online shopping center!*****");
-        System.out.println("Choose an item to start shopping");
+    static void login(Store store) {
+        System.out.println("-------LOGIN-----");
+        System.out.println("for login to your account enter your account name and password correctly");
+        boolean repeat;
         do {
-            int choose=2;
+            repeat = true;
+            System.out.print("user name :\n>");
+            String username = StringScanner.nextLine();
+            System.out.print("password :\n>");
+            String password = StringScanner.nextLine();
+            for (Customer c : store.getCustomers()) {
+                if (c.getName().equals(username) && c.getPassword().equals(password)) {
+                    repeat = false;
+                    do {
+                        System.out.println("1. see existing order");
+                        System.out.println("2. make new order");
+                        System.out.println("3. pay last order cost");
+                        System.out.print("4. to exit\n>");
+
+                        int choice = IntScanner.nextInt();
+                        switch (choice) {
+                            case 1: {
+                                c.getCart().showItems();
+                                continue;
+                            }
+                            case 2: {
+                                if (c.getCart().isPaid()) {
+                                    c.makeOrder(store);
+                                } else {
+                                    System.out.println("you did not paid the last order cost");
+                                }
+                                continue;
+                            }
+                            case 3: {
+                                c.payOrder();
+                                continue;
+                            }
+                            case 4: {
+                                return;
+                            }
+                        }
+                    } while (true);
+                }//
+            }
+            if (repeat) {
+                System.out.println("wrong user name or password");
+                System.out.println("1. continue\n2. go to menu");
+                int choice1 = IntScanner.nextInt();
+
+                switch (choice1) {
+                    case 1: {
+                        continue;
+                    }
+                    case 2: {
+                        return;
+                    }
+                }
+            }
+        } while (repeat);
+    }
+
+    static void storeProducts(Store store) {
+        System.out.println("-------store products-------");
+        System.out.println("1. show products");
+        System.out.println("2. add a product");
+
+        int choice = IntScanner.nextInt();
+        switch (choice) {
+            case 1: {
+                store.showProductList();
+                break;
+            }
+            case 2: {
+                addProduct(store);
+            }
+        }
+    }
+
+    static void addProduct(Store store) {
+        System.out.println("-------add product-------");
+        String name;
+        double price;
+        boolean Continue = false;
+        do {
+            System.out.print("enter product's name\nenter existing product name and also new price to make its price up to date\nenter -1 to exit\n>");
+            name = StringScanner.nextLine();
+            if (name.equalsIgnoreCase("-1"))
+                return;
+            System.out.print("enter product's price\n>");
+            price = IntScanner.nextInt();
+            for (Product p : store.getProductList()) {
+                if (p.getName().equalsIgnoreCase(name) && p.getPrice() == price) {
+                    System.out.println("the same product already exist!");
+                    System.out.print("1. add new product\n2. go to menu\n>");
+                    int choice = IntScanner.nextInt();
+                    switch (choice) {
+                        case 1: {
+                            Continue = true;
+                            continue;
+                        }
+                        case 2: {
+                            return;
+                        }
+                        default:
+                            System.out.println("wrong entry!");
+                            return;
+                    }
+                } else if (p.getName().equalsIgnoreCase(name)) {
+                    p.setPrice(price);
+                    return;
+                }
+            }
+        } while (Continue);
+        store.addProduct(new Product(name, price));
+    }
+
+    public static void main(String[] args) {
+        Store store = new Store();
+        System.out.println("*****Welcome to our online shop!*****");
+        do {
+            int choose = 3;
             do {
-                if(choose<1 || choose>4){
+                if (choose < 1 || choose > 5) {
                     System.out.println("Enter a number in range!");
                 }
-                System.out.println("Enter "+1+" for add a product to store");
-                System.out.println("Enter "+2+" for show shop products list");
-                System.out.println("Enter "+3+" for add a customer for making a shoppingcart");
-                System.out.println("Enter "+4+" for exit");
-//                System.out.println("Enter"+5+"for");
+                System.out.println("--------shop menu---------");
+                System.out.println("1. make an account");
+                System.out.println("2. login");
+                System.out.println("3. view shop products");
+                System.out.println("4. store products");
+                System.out.println("5. exit");
+                System.out.print(">");
                 choose = IntScanner.nextInt();
-            }while (choose<1 || choose>4);
-            switch (choose){
-                case 1 :{
-                    addProduct(Store);
+            } while (choose < 1 || choose > 5);
+            switch (choose) {
+                case 1: {
+                    makeAccount(store);
                     continue;
                 }
-                case 2 :{
-                    showProducts(Store);
+                case 2: {
+                    login(store);
                     continue;
                 }
-                case 3 :{
-                    addCustomer(Store);
+                case 3: {
+                    store.showProductList();
                     continue;
                 }
-                case 4 :{
-                    break;
+                case 4: {
+                    storeProducts(store);
+                    continue;
+                }
+                case 5: {
+                    return;
                 }
             }
-        }while (true);
+        } while (true);
     }
 }

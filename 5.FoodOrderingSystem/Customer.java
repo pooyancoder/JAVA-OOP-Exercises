@@ -1,12 +1,22 @@
 import java.util.ArrayList;
 
 public class Customer {
-    private String name;
+    private final String name;
+    private final Order order;
 
-    public Customer(String name) {
-        this.name = name;
+    public Order getOrder() {
+        return order;
     }
-// MenuItem... items
+
+    public String getName() {
+        return name;
+    }
+
+    public Customer(String name, Order order) {
+        this.name = name;
+        this.order = order;
+    }
+
     public Order placeOrder(ArrayList<MenuItem> items) {
         Order order = new Order();
         for (MenuItem item : items) {

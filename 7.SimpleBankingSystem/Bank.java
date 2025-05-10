@@ -10,7 +10,6 @@ public class Bank {
 
     public void addCustomer(Customer customer) {
         customers.add(customer);
-        System.out.println("New customer added: " + customer);
     }
 
     public List<Customer> getCustomers(){

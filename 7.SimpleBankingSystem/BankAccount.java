@@ -1,11 +1,14 @@
 import java.util.ArrayList;
 
-public class BankAccount {
+public abstract class BankAccount {
     protected String accountNumber;
     protected double balance;
     protected ArrayList<String> History;
 
-    public BankAccount(){}
+    public BankAccount(String accountNumber, double balance){
+        this(accountNumber);
+        this.balance = balance;
+    }
 
     public BankAccount(String accountNumber) {
         History = new ArrayList<>();
